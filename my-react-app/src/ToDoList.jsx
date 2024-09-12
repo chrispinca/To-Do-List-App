@@ -1,24 +1,35 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import axiosInstance from './axiosInstance.js';
 
 function ToDoList() {
 
     const [tasks, setTasks] = useState([]);
-    const [newTask, setNewTask] = useState([])
+    const [newTask, setNewTask] = useState('');
+
+    useEffect(() => {
+      async function fetchTasks() {
+        const res = await axiosInstance.get('/tasks');
+        setTasks(res.data);
+      }
+      fetchTasks();
+    }, []);
     
     function handleInputChange(event) {
         setNewTask(event.target.value);
     }
 
-    function addTask() {
+    async function addTask() {
         if(newTask.trim() !== "" ) {
-            setTasks(t => [...t, newTask]);
+          const res = await axiosInstance.post('/tasks', {text: newTask});
+          
+            setTasks([...tasks, res.data]);
             setNewTask("");
         }
     }
 
-    function deleteTask(index) {
-        const updatedTasks = tasks.filter((_, i) => i !== index);
-        setTasks(updatedTasks);
+    async function deleteTask(id) {
+        await axiosInstance.delete(`/tasks/${id}`);
+        setTasks(tasks.filter(task => task._id !== id));
     }
 
     function moveTaskUp(index) {
@@ -55,19 +66,19 @@ function ToDoList() {
                 </div>
 
                 <ol>
-                    {tasks.map((task, index) => 
-                        <li key = {index}>
-                            <span className = "text">{task}</span>
+                    {tasks.map(task => 
+                        <li key = {task._id}>
+                            <span className = "text">{task.text}</span>
                             <button className = "delete-button" 
-                                    onClick = {() => deleteTask(index)}>
+                                    onClick = {() => deleteTask(task._id)}>
                                     ❌
                             </button>
                             <button className = "move-button" 
-                                    onClick = {() => moveTaskUp(index)}>
+                                    onClick = {() => moveTaskUp(task._id)}>
                                     👆
                             </button>
                             <button className = "move-button" 
-                                    onClick = {() => moveTaskDown(index)}>
+                                    onClick = {() => moveTaskDown(task._id)}>
                                     👇
                             </button>
                         </li>)}
