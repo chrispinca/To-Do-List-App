@@ -4,9 +4,8 @@ import axiosInstance from './axiosInstance'
 function Weather() {
     const [weather, setWeather] = useState(null);
     const API_KEY = 'ba7f4889df1f48e7f3e7693818973a0d';
-    const lat = 49.282368;
-    const lon = -122.794361;
-    const city = "Vancouver"
+    const [city, setCity] = useState("Vancouver");
+    const [inputCity, setInputCity] = useState(city);
 
     useEffect(() => {
         async function fetchWeather() {
@@ -18,7 +17,15 @@ function Weather() {
             }
         }
         fetchWeather();
-    }, [API_KEY]);
+    }, [city, API_KEY]);
+
+    const handleInputChange = (event) => {
+        setInputCity(event.target.value);
+    };
+
+    const handleSearch = () => {
+        setCity(inputCity);
+    }
 
     return (
         <div className="weather-info">
@@ -27,11 +34,22 @@ function Weather() {
                     <h2>Weather in {weather.name}</h2>
                     <p>{weather.weather[0].description}</p>
                     <p>Temperature: {weather.main.temp} °C </p>
-                    <p>Feels Like: {weather.main.feels_like} °C</p>
+                    <div className = "weather-controls" >
+                        <input 
+                            className = "city-input"
+                            type = "text"
+                            value = {inputCity}
+                            onChange={handleInputChange}
+                            placeholder="Enter City">
+                        </input>
+                        <button className = "get-weather-button" onClick = {handleSearch}>Get Weather</button>
+                    </div>
+                    
                 </>
             ) : (
                 <p>Loading weather data...</p>
             )}
+            
         </div>
     );
 }
