@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from "react";
 import axiosInstance from './axiosInstance.js';
+import Note from "./Note.jsx";
 
 function ToDoList() {
 
     const [tasks, setTasks] = useState([]);
+    const [newTitle, setNewTitle] = useState('');
     const [newTask, setNewTask] = useState('');
 
     useEffect(() => {
@@ -20,34 +22,22 @@ function ToDoList() {
 
     async function addTask() {
         if(newTask.trim() !== "" ) {
-          const res = await axiosInstance.post('/tasks', {text: newTask});
-          
-            setTasks([...tasks, res.data]);
+          const res = await axiosInstance.post('/tasks', {title: newTitle, text: newTask});
+            
+            setTasks(t => [...t, res.data]);
+            setNewTitle("");
             setNewTask("");
         }
+    }
+
+    async function updateTask(id) {
+        await axiosInstance.put(`/tasks/${id}`);
+        
     }
 
     async function deleteTask(id) {
         await axiosInstance.delete(`/tasks/${id}`);
         setTasks(tasks.filter(task => task._id !== id));
-    }
-
-    function moveTaskUp(index) {
-        if(index > 0) {
-            const updatedTasks = [...tasks];
-            [updatedTasks[index], updatedTasks[index - 1]] = 
-            [updatedTasks[index-1], updatedTasks[index]];
-            setTasks(updatedTasks);
-        }
-    }
-
-    function moveTaskDown(index) {
-        if(index < tasks.length - 1) {
-            const updatedTasks = [...tasks];
-            [updatedTasks[index], updatedTasks[index + 1]] = 
-            [updatedTasks[index+1], updatedTasks[index]];
-            setTasks(updatedTasks);
-        }
     }
 
     return (<div className = "to-do-list">
@@ -65,24 +55,18 @@ function ToDoList() {
                     </button>
                 </div>
 
-                <ol>
+                <div className = "note-container">
                     {tasks.map(task => 
-                        <li key = {task._id}>
-                            <span className = "text">{task.text}</span>
-                            <button className = "delete-button" 
-                                    onClick = {() => deleteTask(task._id)}>
-                                    ❌
+                        <Note key = {task._id} title = {task.title} content = {task.text} onDelete = {() => {deleteTask(task._id)}}>
+                            {/* <span className = "text">{task.text}</span> */}
+                            <button className = "edit-button"
+                                    onClick = {() => updateTask(task._id)}>
+                                    📝
                             </button>
-                            <button className = "move-button" 
-                                    onClick = {() => moveTaskUp(task._id)}>
-                                    👆
-                            </button>
-                            <button className = "move-button" 
-                                    onClick = {() => moveTaskDown(task._id)}>
-                                    👇
-                            </button>
-                        </li>)}
-                </ol>
+                            
+                        </Note>)}
+
+                </div>
 
     </div>);
 }

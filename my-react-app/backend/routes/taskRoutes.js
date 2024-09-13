@@ -14,6 +14,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const task = new Task({
+        title: req.body.title,
         text: req.body.text
     });
 
@@ -48,6 +49,7 @@ router.put('/:id', async (req, res) => {
         if (!task) {
             return res.status(404).json({message: 'Task not found'});
         }
+        task.title = req.body.title;
         task.text = req.body.text;
         await task.save();
         res.json(task);
