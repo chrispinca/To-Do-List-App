@@ -14,16 +14,7 @@ h1{
     color: white;
 }
 
-button{
-    font-size: 1.6rem;
-    font-weight: bold;
-    padding: 10px 20px;
-    border: 2px solid rgb(0, 124, 10);
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.5s ease;
-    margin-left: 5px;
-}
+
 
 .add-button {
     background-color: rgb(50, 233, 4);
@@ -41,12 +32,48 @@ button{
 }
 
 .delete-button {
-    background-color: rgb(236, 0, 0);
+    border:none;
+    background-color: transparent;
+    font-size: 1.4rem;
+    position: absolute;
+    top:5px;
+    right:5px;
+    cursor: pointer;
 }
 
 .delete-button:hover {
     background-color: rgb(197, 0, 0);
 }
+
+.input-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1px;
+}
+
+.text-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0px; 
+}
+
+.add-button {
+    font-size: 1.6rem;
+    font-weight: bold;
+    padding: 36px 20px;
+    border: 2px solid rgb(0, 124, 10);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    background-color: rgb(50, 233, 4);
+    align-self: center; 
+}
+
+.add-button:hover {
+    background-color: rgb(35, 175, 0);
+}
+
 
 .note-container {
     margin-top: 20px;
@@ -68,12 +95,18 @@ button{
     position: relative;
 }
 
+.note-title {
+    padding-right: 20px;
+}
+
 @media (max-width: 600px) {
     .note {
         width: 100%;
         box-sizing: border-box;
     }
 }
+
+
 
 
 input[type="text"] {
@@ -105,10 +138,3 @@ li {
     flex:1;
 }
 
-.delete-button {
-    padding: 8px 12px;
-    font-size: 1.4rem;
-    position: absolute;
-    top:10px;
-    right:10px;
-}

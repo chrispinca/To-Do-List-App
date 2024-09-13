@@ -1,14 +1,14 @@
 import React from "react"
 
-function Note({title, content, onDelete}) {
+function Note(props) {
     return (
         <div className = "note">
             <button className = "delete-button" 
-                                    onClick = {onDelete}>
+                                    onClick = {props.onDelete}>
                                     ❌
             </button>
-            <h3 className = "note-title">{title}</h3>
-            <p className = "note-content">{content}</p>
+            <h3 className = "note-title">{props.title}</h3>
+            <p className = "note-content">{props.content}</p>
         </div>
     )
 }

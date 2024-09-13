@@ -17,7 +17,13 @@ function ToDoList() {
     }, []);
     
     function handleInputChange(event) {
-        setNewTask(event.target.value);
+        const {name, value} = event.target;
+        if(name === "title") {
+            setNewTitle(value);
+        } else {
+            setNewTask(value);
+        }
+        
     }
 
     async function addTask() {
@@ -32,7 +38,6 @@ function ToDoList() {
 
     async function updateTask(id) {
         await axiosInstance.put(`/tasks/${id}`);
-        
     }
 
     async function deleteTask(id) {
@@ -42,12 +47,21 @@ function ToDoList() {
 
     return (<div className = "to-do-list">
                 <h1>To Do List</h1>
-                <div>
-                    <input 
-                        type = "text"
-                        placeholder = "Enter a task..." 
-                        value={newTask}
-                        onChange = {handleInputChange}/>
+                <div className = "input-container">
+                    <div className = "text-input" >
+                        <input
+                            type="text"
+                            name="title"
+                            placeholder = "Title..."
+                            value={newTitle}
+                            onChange={handleInputChange}></input>
+                        <input 
+                            type = "text"
+                            placeholder = "Enter a task..." 
+                            value={newTask}
+                            onChange = {handleInputChange}/>
+                    </div>
+                    
                     <button
                         className="add-button"
                         onClick = {addTask}>
@@ -58,7 +72,6 @@ function ToDoList() {
                 <div className = "note-container">
                     {tasks.map(task => 
                         <Note key = {task._id} title = {task.title} content = {task.text} onDelete = {() => {deleteTask(task._id)}}>
-                            {/* <span className = "text">{task.text}</span> */}
                             <button className = "edit-button"
                                     onClick = {() => updateTask(task._id)}>
                                     📝
