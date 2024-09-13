@@ -73,7 +73,7 @@ function ToDoList() {
                         Add
                     </button>
                 </div>
-                <Stopwatch></Stopwatch>
+                <Weather></Weather>
                 </div>
                 
 
