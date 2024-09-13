@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
 import axiosInstance from './axiosInstance.js';
 import Note from "./Note.jsx";
+import Weather from "./Weather.jsx";
+import Stopwatch from "./Stopwatch.jsx";
 
 function ToDoList() {
 
@@ -47,6 +49,9 @@ function ToDoList() {
 
     return (<div className = "to-do-list">
                 <h1>To Do List</h1>
+                
+                <div className = "top-components">
+                    <Stopwatch></Stopwatch>
                 <div className = "input-container">
                     <div className = "text-input" >
                         <input
@@ -68,6 +73,9 @@ function ToDoList() {
                         Add
                     </button>
                 </div>
+                <Stopwatch></Stopwatch>
+                </div>
+                
 
                 <div className = "note-container">
                     {tasks.map(task => 
