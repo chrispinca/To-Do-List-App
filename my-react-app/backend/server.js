@@ -14,7 +14,7 @@ app.use('/tasks', taskRoutes);
 
 app.get('/', (req, res) => {
     console.log(req);
-    return res.status(234).send("Welcome to note app");
+    return res.status(200).send("Welcome to note app");
 });
 
 mongoose
