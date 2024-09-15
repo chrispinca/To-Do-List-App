@@ -1,10 +1,14 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import {mongoDbUri, PORT} from './config.js'
-import taskRoutes from './routes/taskRoutes.js'
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import taskRoutes from './routes/taskRoutes.js';
 import cors from 'cors';
 
+dotenv.config();
+
 const app = express();
+const mongoDbUri = String(process.env.mongoDbUri);
+const PORT = process.env.PORT;
 
 app.use(cors({ origin: 'http://localhost:5173' }));
 
