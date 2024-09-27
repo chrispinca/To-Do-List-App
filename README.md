@@ -1,4 +1,4 @@
-To-Do List App 
+**To-Do List App: **
 This is a full-stack To-Do List web application built with React for the frontend, Express for the backend, MongoDB for data storage, and Docker for containerization. 
 It allows users to add, edit, and delete tasks. The app uses a REST API to communicate between the frontend and backend, and everything is orchestrated using Docker Compose.
 
